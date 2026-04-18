@@ -62,7 +62,6 @@ class NmeaSentence:
         return self.sentence.get(key)
 
     def coordinates(self, schema):
-
         latd = self['LATD']
         lond = self['LOND']
 
