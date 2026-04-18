@@ -1,4 +1,4 @@
-from . import check_nmea_sum, check_type
+from check import check_nmea_sum, check_type
 from parse import gga, rmc
 
 class NmeaSentence:
