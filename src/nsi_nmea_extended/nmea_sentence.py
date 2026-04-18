@@ -70,9 +70,8 @@ class NmeaSentence:
             if c is None:
                 raise ValueError(f'Coordinate(s) missing : LAT:{latd},LON:{lond}')
 
-        match schema:
-            case dict():return {'LATD':latd, 'LOND':lond}
-            case list():return [latd, lond]
-            case tuple():return latd, lond
-            case str():return f'{latd},{lond}'
-            case _:raise ValueError(f'NMEA sentence format not supported.')
+        if schema is dict:return {'LATD': latd, 'LOND': lond}
+        elif schema is list:return [latd, lond]
+        elif schema is tuple:return latd, lond
+        elif schema is str:return f'{latd},{lond}'
+        else:raise ValueError('NMEA sentence format not supported.')
