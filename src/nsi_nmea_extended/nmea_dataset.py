@@ -30,15 +30,15 @@ class NmeaDataset:
                                 try:self.sentences.append(NmeaSentence(line))
                                 except Exception:pass
                     except Exception:pass
-
-                    if len(self.sentences) == 0:
-                        raise ValueError('No sentences could be loaded')
                 elif data.endswith('.nmeasz'):
                     try:
                         with open(data,'r',encoding='utf-8') as fi:
                             try:self.sentences = eval(fi.read())
                             except Exception:pass
                     except Exception:pass
+
+        if len(self.sentences) == 0:
+            raise ValueError('No sentences could be loaded')
 
     def __str__(self) -> str:
         return str(self.sentences)
