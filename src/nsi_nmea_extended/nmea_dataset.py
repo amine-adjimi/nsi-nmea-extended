@@ -37,7 +37,7 @@ class NmeaDataset:
                             except Exception:pass
                     except Exception:pass
 
-        if len(self.sentences) == 0:
+        if not self.sentences:
             raise ValueError('No sentences could be loaded')
 
     def __str__(self) -> str:
