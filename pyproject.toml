@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 where = ["src"]
 
 [project]
-name = "nsi-nmea-extended"
+name = "nsi_nmea_extended"
 version = "0.1.0"
 description = "Extended toolbox for NMEA handling"
 authors = [
