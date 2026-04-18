@@ -1,4 +1,4 @@
-from .. import check_value
+from ..check import check_value
 
 def parse(s):
     check_value(int(s[6]), (1, 2, 3, 4, 5)) # Only accepts precise GPS Quality

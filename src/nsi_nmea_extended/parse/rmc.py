@@ -1,4 +1,4 @@
-from .. import check_value
+from ..check import check_value
 
 def parse(s):
     check_value(s[2], 'A')  # Checks if the sentence has marked as valid

@@ -1,4 +1,5 @@
-from . import check_type, check_both, NmeaSentence
+from .check import check_type, check_both
+from .nmea_sentence import NmeaSentence
 
 class NmeaDataset:
     """

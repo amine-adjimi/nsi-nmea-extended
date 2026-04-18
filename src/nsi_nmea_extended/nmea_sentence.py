@@ -1,5 +1,5 @@
-from check import check_nmea_sum, check_type
-from parse import gga, rmc
+from .check import check_type, check_nmea_sum
+from .parse import *
 
 class NmeaSentence:
     """
