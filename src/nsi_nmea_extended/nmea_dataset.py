@@ -36,9 +36,8 @@ class NmeaDataset:
                             try:self.sentences = eval(fi.read())
                             except Exception:pass
                     except Exception:pass
-
-        if not self.sentences:
-            raise ValueError('No sentences could be loaded')
+                else:
+                    raise ValueError('File type not supported. Supported file types are : .nmea, .txt and .nmeasz')
 
     def __str__(self) -> str:
         return str(self.sentences)
