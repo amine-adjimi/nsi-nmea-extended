@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project]
+name = "nsi-nmea-extended"
+version = "0.1.0"
+description = "Extended toolbox for NMEA handling"
+authors = [
+    { name = "ADJIMI Amine"},
+    { name = "BUREAUD Gaël" }
+]
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = []
