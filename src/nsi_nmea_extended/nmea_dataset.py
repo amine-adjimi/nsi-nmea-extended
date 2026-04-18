@@ -29,6 +29,9 @@ class NmeaDataset:
                                     continue
                                 try:self.sentences.append(NmeaSentence(line))
                                 except Exception:pass
+
+                            if len(self.sentences) == 0:
+                                raise ValueError('No sentences could be loaded')
                     except Exception:pass
                 elif data.endswith('.nmeasz'):
                     try:
