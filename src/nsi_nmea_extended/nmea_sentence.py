@@ -63,13 +63,6 @@ class NmeaSentence:
 
     def coordinates(self, schema):
 
-        for check in (
-                (schema, tuple),
-                (schema[0], float),
-                (schema[1], float)
-        ):
-            check_type(check[0], check[1])
-
         latd = self['LATD']
         lond = self['LOND']
 
