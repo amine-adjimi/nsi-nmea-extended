@@ -66,6 +66,8 @@ class NmeaDataset:
         return [sentence.coordinates(schema) for sentence in self.sentences]
 
     def framing(self) -> dict:
+        if not self.sentences or len(self.sentences) <= 1:
+            raise ValueError("Not enough NMEA sentences loaded.")
         return {
             'MAX': {
                 'LATD':max([sentence['LATD'] for sentence in self.sentences]),
