@@ -20,7 +20,10 @@ class NmeaDataset:
 
         match datatype:
             case 'file':
+                import os
                 if data.endswith(('.nmea','.txt')):
+                    if not os.path.exists(data):
+                        raise FileNotFoundError(f"{data} doesn't exist.")
                     try:
                         with open(data,'r',encoding='utf-8-sig') as fi:
                             for line in fi:
