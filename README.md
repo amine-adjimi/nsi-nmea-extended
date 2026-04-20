@@ -95,7 +95,3 @@ Standardized keys used in the output dictionary:
   - `NN`: Minute (int)
   - `SS`: Second (float)
 - `VLDT`: Internal validity flag (bool)
-
-## License
-
-This project is licensed under the GNU GPL v3 License.
