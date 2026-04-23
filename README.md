@@ -45,7 +45,7 @@ Field Number:
 3. N or S (North or South)
 4. Longitude, dd is degrees, mm.mm is minutes
 5. E or W (East or West)
-6. GPS Quality Indicator (non null)
+6. GPS Quality Indicator (non-null)
 ```text
 0 - fix not available,
 1 - GPS fix,
