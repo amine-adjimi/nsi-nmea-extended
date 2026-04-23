@@ -19,19 +19,100 @@ pip install git+https://github.com/amine-adjimi/nsi-nmea-extended.git
 ## Supported Sentences
 
 ### GGA (Global Positioning System Fix Data)
-Extracts:
+#### Extracted data
 - Latitude and Longitude
 - Time (HH:NN:SS) (NN stands for minutes)
 - Altitude (Meters)
 - Validation: Requires GPS Quality (1-5), at least 4 satellites, and HDOP ≤ 10.0.
 
+#### Sentence schema
+
+This is one of the sentences commonly emitted by GPS units.
+
+Time, Position and fix related data for a GPS receiver.
+
+```text
+                                                      11
+        1         2       3 4        5 6 7  8   9  10 |  12 13  14   15
+        |         |       | |        | | |  |   |   | |   | |   |    |
+ $--GGA,hhmmss.ss,ddmm.mm,a,ddmm.mm,a,x,xx,x.x,x.x,M,x.x,M,x.x,xxxx*hh<CR><LF>
+```
+
+Field Number:
+1. UTC of this position report, hh is hours, mm is minutes, ss.ss is seconds.
+2. Latitude, dd is degrees, mm.mm is minutes
+3. N or S (North or South)
+4. Longitude, dd is degrees, mm.mm is minutes
+5. E or W (East or West)
+6. GPS Quality Indicator (non null)
+```text
+0 - fix not available,
+1 - GPS fix,
+2 - Differential GPS fix (values above 2 are 2.3 features)
+3 = PPS fix
+4 = Real Time Kinematic
+5 = Float RTK
+6 = estimated (dead reckoning)
+7 = Manual input mode
+8 = Simulation mode
+```
+7. Number of satellites in use, 00 - 12
+8. Horizontal Dilution of precision (meters)
+9. Antenna Altitude above/below mean-sea-level (geoid) (in meters)
+10. Units of antenna altitude, meters
+11. Geoidal separation, the difference between the WGS-84 earth ellipsoid and mean-sea-level (geoid), "-" means mean-sea-level below ellipsoid
+12. Units of geoidal separation, meters
+13. Age of differential GPS data, time in seconds since last SC104 type 1 or 9 update, null field when DGPS is not used
+14. Differential reference station ID, 0000-1023
+15. Checksum
+
+The number of digits past the decimal point for Time, Latitude and Longitude is model dependent.
+
+Example:
+`$GNGGA,001043.00,4404.14036,N,12118.85961,W,1,12,0.98,1113.0,M,-21.3,M*47`
+
 ### RMC (Recommended Minimum Specific GNSS Data)
-Extracts:
+#### Extracted data
 - Latitude and Longitude
 - Date (DD,MM,YY) and time (HH,NN,SS) (NN stands for minutes)
 - Speed (km/h)
 - Track Angle (Degrees)
 - Validation: Requires sentence to be marked as valid ('A') by the satellite and checks FAA modes for newer versions.
+
+#### Sentence schema
+
+This is one of the sentences commonly emitted by GPS units.
+
+```text
+        1         2 3       4 5        6  7   8   9    10 11
+        |         | |       | |        |  |   |   |    |  |
+ $--RMC,hhmmss.ss,A,ddmm.mm,a,dddmm.mm,a,x.x,x.x,xxxx,x.x,a*hh<CR><LF>
+NMEA 2.3:
+ $--RMC,hhmmss.ss,A,ddmm.mm,a,dddmm.mm,a,x.x,x.x,xxxx,x.x,a,m*hh<CR><LF>
+NMEA 4.1:
+ $--RMC,hhmmss.ss,A,ddmm.mm,a,dddmm.mm,a,x.x,x.x,xxxx,x.x,a,m,s*hh<CR><LF>
+```
+
+Field Number:
+1. UTC of position fix, `hh` is hours, `mm` is minutes, `ss.ss` is seconds.
+2. Status, `A` = Valid, `V` = Warning
+3. Latitude, `dd` is degrees. `mm.mm` is minutes.
+4. `N` or `S`
+5. Longitude, `ddd` is degrees. `mm.mm` is minutes.
+6. `E` or `W`
+7. Speed over ground, knots
+8. Track made good, degrees true
+9. Date, `ddmmyy`
+10. Magnetic Variation, degrees
+11. `E` or `W`
+12. FAA mode indicator (NMEA 2.3 and later)
+13. Nav Status (NMEA 4.1 and later) `A`=autonomous, `D`=differential, `E`=Estimated, `M`=Manual input mode `N`=not valid, `S`=Simulator, `V` = Valid
+14. Checksum
+
+A status of V means the GPS has a valid fix that is below an internal quality threshold, e.g. because the dilution of precision is too high or an elevation mask test failed.
+The number of digits past the decimal point for Time, Latitude and Longitude is model dependent.
+
+Example: `$GNRMC,001031.00,A,4404.13993,N,12118.86023,W,0.146,,100117,,,A*7B`
 
 ## Usage
 
