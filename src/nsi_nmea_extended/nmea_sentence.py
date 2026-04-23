@@ -29,18 +29,10 @@ class NmeaSentence:
             parsed = None
 
             type_code = raw[0][3:]
-            if type_code.startswith('RMC') and type_code != 'RMCDD':
-                # Check if it's RMCF based on coordinate length
-                # Standard RMC has 4 digits for lat and 5 for lon before the dot
-                lat_part = raw[3].split('.')[0]
-                lon_part = raw[5].split('.')[0]
-                if len(lat_part) < 4 or len(lon_part) < 5:
-                    type_code = 'RMCF'
 
             match type_code: # Routes the sentence to the right parser depending on its scheme or raises an error if the scheme is not supported
                 case 'RMC':parsed = rmc(raw)
                 case 'GGA':parsed = gga(raw)
-                case 'RMCDD':parsed = rmcdd(raw)
                 case _:raise ValueError(f"Sentence schema type not covered or non-existent (schema : {raw[0][3:]}).")
 
             parsed['VLDT'] = True # Marks the sentence as valid (for future re-imports if the sentence is exported to a file)
