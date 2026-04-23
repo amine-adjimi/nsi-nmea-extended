@@ -20,10 +20,10 @@ def parse(s):
     if version >= 4.1:
         check_value(s[13], ('A', 'D', 'V'))  # Only accepts precise Nav Statutes
 
-    if 2 <= len(s[3].split('.')[0]) <= 4:
-        raise ValueError(f"Invalid latitude format (correct format : ddmm.mm- ; given value : {s[3]}).")
-    if 2 <= len(s[5].split('.')[0]) != 5:
-        raise ValueError(f"Invalid longitude format (correct format : dddmm.mm- ; given value : {s[5]}).")
+    if len(s[3].split('.')[0]) >= 2 or len(s[3].split('.')[0]) <= 4:
+        raise ValueError(f"Invalid latitude format (correct format : dd(dynamic)mm.mm- ; given value : {s[3]}).")
+    if len(s[5].split('.')[0]) >= 2 or len(s[5].split('.')[0]) <= 5:
+        raise ValueError(f"Invalid longitude format (correct format : ddd(dynamic)mm.mm- ; given value : {s[5]}).")
 
     latdd = s[3].split('.')[0][:-2]
     londd = s[5].split('.')[0][:-2]
