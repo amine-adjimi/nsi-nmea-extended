@@ -27,6 +27,8 @@ def parse(s):
 
     latdd = s[3].split('.')[0][:-2]
     londd = s[5].split('.')[0][:-2]
+    if latdd == '':latdd = 0
+    if londd == '': londd = 0
 
     # Parses the sentence's data and puts it in the dict
     dc = {
