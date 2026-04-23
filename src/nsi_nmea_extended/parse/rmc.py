@@ -20,9 +20,9 @@ def parse(s):
     if version >= 4.1:
         check_value(s[13], ('A', 'D', 'V'))  # Only accepts precise Nav Statutes
 
-    if len(s[3].split('.')[0] != 4):
+    if len(s[3].split('.')[0]) != 4:
         raise ValueError(f"Invalid latitude format (correct format : ddmm.mm ; given value : {s[3]}).")
-    if len(s[5].split('.')[0] != 5):
+    if len(s[5].split('.')[0]) != 5:
         raise ValueError(f"Invalid longitude format (correct format : dddmm.mm ; given value : {s[5]}).")
 
     # Parses the sentence's data and puts it in the dict
