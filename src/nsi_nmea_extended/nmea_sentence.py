@@ -1,5 +1,5 @@
 from .check import check_type, check_nmea_sum
-from .parse import *
+import importlib
 
 class NmeaSentence:
     """
@@ -26,12 +26,10 @@ class NmeaSentence:
             check_nmea_sum(raw) # Checksum
             raw = raw.split('*')[0].split(',') # Removes the checksum part and splits the sentence into a list
 
-            parsed = None
-
-            match raw[0][3:]: # Routes the sentence to the right parser depending on its scheme or raises an error if the scheme is not supported
-                case 'RMC':parsed = rmc(raw)
-                case 'GGA':parsed = gga(raw)
-                case _:raise ValueError(f"Sentence schema type not covered or non-existent (schema : {raw[0][3:]}).")
+            try:
+                parsed = importlib.import_module(f".parse.{raw[0][3:].lower()}", package="nsi_nmea_extended").parse(raw)
+            except (ModuleNotFoundError, AttributeError):
+                raise ValueError(f"Sentence schema type not covered or non-existent (schema : {raw[0][3:].upper()}).")
 
             parsed['VLDT'] = True # Marks the sentence as valid (for future re-imports if the sentence is exported to a file)
 
