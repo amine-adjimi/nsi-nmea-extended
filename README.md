@@ -116,50 +116,6 @@ The number of digits past the decimal point for Time, Latitude and Longitude is 
 
 Example: `$GNRMC,001031.00,A,4404.13993,N,12118.86023,W,0.146,,100117,,,A*7B`
 
-### RMCDD (Recommended Minimum Specific GNSS Data in Decimal Degrees)
-
-#### Extracted data
-- Latitude and Longitude
-- Date (DD,MM,YY) and time (HH,NN,SS) (NN stands for minutes)
-- Speed (km/h)
-- Track Angle (Degrees)
-- Validation: Requires sentence to be marked as valid ('A') by the satellite and checks FAA modes for newer versions.
-
-#### Sentence schema
-
-This is a non-officiel scheme that some GPS units emit as an alternative to RMC, with the same data but in decimal degrees instead of the NMEA format.
-
-```text
-        1         2 3     4 5     6  7   8   9    10 11
-        |         | |     | |     |  |   |   |    |  |
- $--RMC,hhmmss.ss,A,dd.dd,a,dd.dd,a,x.x,x.x,xxxx,x.x,a*hh<CR><LF>
-NMEA 2.3:
- $--RMC,hhmmss.ss,A,dd.dd,a,dd.dd,a,x.x,x.x,xxxx,x.x,a,m*hh<CR><LF>
-NMEA 4.1:
- $--RMC,hhmmss.ss,A,dd.dd,a,dd.dd,a,x.x,x.x,xxxx,x.x,a,m,s*hh<CR><LF>
-```
-
-Field Number:
-1. UTC of position fix, `hh` is hours, `mm` is minutes, `ss.ss` is seconds.
-2. Status, `A` = Valid, `V` = Warning
-3. Latitude, `dd.dd` is for decimal degrees.
-4. `N` or `S`
-5. Longitude, `dd.dd` is for decimal degrees.
-6. `E` or `W`
-7. Speed over ground, knots
-8. Track made good, degrees true
-9. Date, `ddmmyy`
-10. Magnetic Variation, degrees
-11. `E` or `W`
-12. FAA mode indicator (NMEA 2.3 and later)
-13. Nav Status (NMEA 4.1 and later) `A`=autonomous, `D`=differential, `E`=Estimated, `M`=Manual input mode `N`=not valid, `S`=Simulator, `V` = Valid
-14. Checksum
-
-A status of V means the GPS has a valid fix that is below an internal quality threshold, e.g. because the dilution of precision is too high or an elevation mask test failed.
-The number of digits past the decimal point for Time, Latitude and Longitude is model dependent.
-
-Example: `$GNRMC,001031.00,A,4404.13993,N,12118.86023,W,0.146,,100117,,,A*7B`
-
 ## Usage
 
 ### Parsing a single sentence
