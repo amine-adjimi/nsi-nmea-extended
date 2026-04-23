@@ -1,5 +1,6 @@
 from .check import check_type, check_both
 from .nmea_sentence import NmeaSentence
+from .log import log
 
 class NmeaDataset:
     """
@@ -31,7 +32,7 @@ class NmeaDataset:
                                 if not line:
                                     continue
                                 try:self.sentences.append(NmeaSentence(line))
-                                except Exception:pass
+                                except Exception as error:log(error, line)
                     except Exception:pass
                 elif data.endswith('.nmeasz'):
                     try:
