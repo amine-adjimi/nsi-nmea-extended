@@ -20,15 +20,18 @@ def parse(s):
     if version >= 4.1:
         check_value(s[13], ('A', 'D', 'V'))  # Only accepts precise Nav Statutes
 
-    if len(s[3].split('.')[0]) != 4:
+    if 2 <= len(s[3].split('.')[0]) <= 4:
         raise ValueError(f"Invalid latitude format (correct format : ddmm.mm- ; given value : {s[3]}).")
-    if len(s[5].split('.')[0]) != 5:
+    if 2 <= len(s[5].split('.')[0]) != 5:
         raise ValueError(f"Invalid longitude format (correct format : dddmm.mm- ; given value : {s[5]}).")
+
+    latdd = s[3].split('.')[0][:-2]
+    londd = s[5].split('.')[0][:-2]
 
     # Parses the sentence's data and puts it in the dict
     dc = {
-        'LATD': (float(s[3][:2]) + (float(s[3][2:]) / 60)) * ((-1) if s[4] == "S" else 1 if s[4] == "N" else 0),
-        'LOND': (float(s[5][:3]) + (float(s[5][3:]) / 60)) * ((-1) if s[6] == "W" else 1 if s[6] == "E" else 0),
+        'LATD': (float(latdd) + (float(f"{latdd}.{s[3].split('.')[1]}") / 60)) * ((-1) if s[4] == "S" else 1 if s[4] == "N" else 0),
+        'LOND': (float(londd) + (float(f"{londd}.{s[5].split('.')[1]}") / 60)) * ((-1) if s[6] == "W" else 1 if s[6] == "E" else 0),
         'DATE': {
             'YY': int(s[9][4:6]),
             'MM': int(s[9][2:4]),
