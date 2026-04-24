@@ -25,7 +25,7 @@ def parse(s):
 
     def coordinate(raw):
         if raw:
-            split = raw.split(',')
+            split = raw.split('.')
 
             minutes_decimal = split[1] if len(split) > 1 else "0"
             minutes_integer = split[0][-2:] if split[0][-2:] != '' else "0"
