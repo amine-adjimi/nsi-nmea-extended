@@ -38,8 +38,8 @@ def parse(s):
 
     # Parses the sentence's data and puts it in the dict
     dc = {
-        'LATD': coordinate(s[4]) * ((-1) if s[4] == "S" else 1 if s[4] == "N" else 0),
-        'LOND': coordinate(s[6]) * ((-1) if s[6] == "W" else 1 if s[6] == "E" else 0),
+        'LATD': coordinate(s[3]) * ((-1) if s[4] == "S" else 1 if s[4] == "N" else 0),
+        'LOND': coordinate(s[5]) * ((-1) if s[6] == "W" else 1 if s[6] == "E" else 0),
         'DATE': {
             'YY': int(s[9][4:6]),
             'MM': int(s[9][2:4]),
