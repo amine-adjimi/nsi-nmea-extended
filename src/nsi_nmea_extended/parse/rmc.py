@@ -20,20 +20,26 @@ def parse(s):
     if version >= 4.1:
         check_value(s[13], ('A', 'D', 'V'))  # Only accepts precise Nav Statutes
 
-    if not (2 <= len(s[3].split('.')[0]) <= 4):
-        raise ValueError(f"Invalid latitude format (correct format : dd(dynamic)mm.mm- ; given value : {s[3]}).")
-    if not (2 <= len(s[5].split('.')[0]) <= 5):
-        raise ValueError(f"Invalid longitude format (correct format : ddd(dynamic)mm.mm- ; given value : {s[5]}).")
+    check_value(s[4], ('S', 'N'))
+    check_value(s[6], ('E', 'W'))
 
-    latdd = s[3].split('.')[0][:-2]
-    londd = s[5].split('.')[0][:-2]
-    if latdd == '':latdd = 0
-    if londd == '': londd = 0
+    def coordinate(raw):
+        if raw:
+            split = raw.split(',')
+
+            minutes_decimal = split[1] if len(split) > 1 else "0"
+            minutes_integer = split[0][-2:] if split[0][-2:] != '' else "0"
+
+            degrees = split[0][:-2] if split[0][:-2] != '' else "0"
+
+            return float(degrees) + (float(f"{minutes_integer}.{minutes_decimal}") / 60)
+        else:
+            raise ValueError("No coordinates provided.")
 
     # Parses the sentence's data and puts it in the dict
     dc = {
-        'LATD': (float(latdd) + (float(f"{latdd}.{s[3].split('.')[1]}") / 60)) * ((-1) if s[4] == "S" else 1 if s[4] == "N" else 0),
-        'LOND': (float(londd) + (float(f"{londd}.{s[5].split('.')[1]}") / 60)) * ((-1) if s[6] == "W" else 1 if s[6] == "E" else 0),
+        'LATD': coordinate(s[4]) * ((-1) if s[4] == "S" else 1 if s[4] == "N" else 0),
+        'LOND': coordinate(s[4]) * ((-1) if s[6] == "W" else 1 if s[6] == "E" else 0),
         'DATE': {
             'YY': int(s[9][4:6]),
             'MM': int(s[9][2:4]),
